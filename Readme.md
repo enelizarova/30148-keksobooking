@@ -1,7 +1,7 @@
-# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
+﻿# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Елена Елизарова](https://up.htmlacademy.ru/javascript/9/user/30148).
-* Наставник: `Неизвестно`.
+* Наставник: [Руфат Хасларов](https://up.htmlacademy.ru/javascript/9/user/372587).
 
 ---
 
