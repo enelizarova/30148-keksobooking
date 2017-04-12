@@ -10,6 +10,8 @@ var roomType = ['flat', 'house', 'bungalo'];
 var time = ['12:00', '13:00', '14:00'];
 var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var flatDict = {'flat': 'Квартира', 'house': 'Дом', 'bungalo': 'Бунгало'};
+var dialog = document.querySelector('.dialog');
+var dialogClose = document.querySelector('.dialog__close');
 
 function getRandomNum(min, max) {
   return (Math.random() * (max - min) + min).toFixed(0);
@@ -46,8 +48,8 @@ function createAds(index) {
       address: x + ',' + y,
       price: getRandomNum(1000, 1000000),
       type: getRandomValue(roomType),
-      rooms: getRandomValue(1, 5),
-      guests: getRandomValue(1, 11),
+      rooms: getRandomNum(1, 5),
+      guests: getRandomNum(1, 11),
       checkin: getRandomValue(time),
       checkout: getRandomValue(time),
       features: getRandomValues(features),
@@ -111,3 +113,48 @@ fragment.appendChild(renderAds(firstElement));
 dialogPanel.innerHTML = '';
 dialogPanel.appendChild(fragment);
 document.querySelector('.dialog__title img').src = firstElement.author.avatar;
+
+function onPinEscPress(evt) {
+  if (evt.keyCode === 27) {
+    closeDialog();
+  }
+}
+
+function openDialog() {
+  similarPinTemplate.classList.add('pin--active');
+  dialog.style.display = 'block';
+}
+
+function closeDialog() {
+  similarPinTemplate.classList.remove('pin--active');
+  dialog.style.display = 'none';
+  document.addEventListener('keydown', onPinEscPress);
+}
+
+similarPinTemplate.addEventListener('click', function () {
+  openDialog();
+});
+
+similarPinTemplate.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    openDialog();
+  }
+});
+
+dialogClose.addEventListener('click', function () {
+  closeDialog();
+});
+
+dialogClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    closeDialog();
+  }
+});
+
+
+/* проблема в том, что работает только на одном пине, который первый.
+а дальше класс не присваивается по тыку.
+что-то мне кажется, что надо как-то захватить событие в момент клика по конкретному пину,
+но у меня ничего не получилось, конечно же )))
+в общем, я запуталась, как обычно ))
+*/
