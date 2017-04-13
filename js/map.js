@@ -1,6 +1,5 @@
 'use strict';
 
-
 var ads = [];
 var dialogPanel = document.querySelector('.dialog__panel');
 var pinMap = document.querySelector('.tokyo__pin-map');
@@ -28,6 +27,7 @@ function getRandomValues(arr) {
   }
   return result;
 }
+
 function getRandomValue(arr) {
   var index = ((arr.length - 1) * Math.random()).toFixed(0);
   return arr[index];
@@ -46,8 +46,8 @@ function createAds(index) {
       address: x + ',' + y,
       price: getRandomNum(1000, 1000000),
       type: getRandomValue(roomType),
-      rooms: getRandomValue(1, 5),
-      guests: getRandomValue(1, 11),
+      rooms: getRandomNum(1, 5),
+      guests: getRandomNum(1, 11),
       checkin: getRandomValue(time),
       checkout: getRandomValue(time),
       features: getRandomValues(features),
@@ -61,8 +61,9 @@ function createAds(index) {
   };
 }
 
-function renderPin(ad) {
+function renderPin(ad, index) {
   var pin = similarPinTemplate.cloneNode(true);
+  pin.dataset.index = index;
   pin.style.left = ad.location.x + 'px';
   pin.style.top = ad.location.y + 'px';
   pin.querySelector('img').src = ad.author.avatar;
@@ -94,20 +95,75 @@ function renderAds(ad) {
   return adsElement;
 }
 
+function renderDialog(ad) {
+  var fragment = document.createDocumentFragment();
+  fragment.appendChild(renderAds(ad));
+  dialogPanel.innerHTML = '';
+  dialogPanel.appendChild(fragment);
+  document.querySelector('.dialog__title img').src = ad.author.avatar;
+}
+
 for (var j = 1; j <= 8; j++) {
   ads.push(createAds(j));
 }
 
 var pinFragment = document.createDocumentFragment();
+
 for (var i = 0; i < ads.length; i++) {
-  pinFragment.appendChild(renderPin(ads[i]));
+  pinFragment.appendChild(renderPin(ads[i], i));
 }
+
 pinMap.appendChild(pinFragment);
 
-var firstElement = ads.shift();
+// ------------------------------------- Личный проект: подробности ----------------------------------------
 
-var fragment = document.createDocumentFragment();
-fragment.appendChild(renderAds(firstElement));
-dialogPanel.innerHTML = '';
-dialogPanel.appendChild(fragment);
-document.querySelector('.dialog__title img').src = firstElement.author.avatar;
+similarPinTemplate.style.display = 'none';
+
+var dialog = document.querySelector('.dialog');
+var dialogClose = document.querySelector('.dialog__close');
+var pins = document.getElementsByClassName('pin');
+
+dialog.style.display = 'none';
+
+function openDialog(context) {
+  var adToRender = ads[context.dataset.index];
+  closeDialog();
+  renderDialog(adToRender);
+  context.classList.add('pin--active');
+  dialog.style.display = 'block';
+}
+
+function closeDialog() {
+  for (var k = 0; k < pins.length; k++) {
+    pins[k].classList.remove('pin--active');
+  }
+  dialog.style.display = 'none';
+}
+
+for (var l = 0; l < pins.length; l++) {
+  pins[l].addEventListener('click', function (e) {
+    openDialog(e.currentTarget);
+  });
+  pins[l].addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      openDialog(evt.currentTarget);
+    }
+  });
+}
+
+dialogClose.addEventListener('click', function () {
+  closeDialog();
+});
+
+dialogClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    closeDialog();
+  }
+});
+
+document.addEventListener('keydown', function (e) {
+  if (e.keyCode === 27) {
+    closeDialog();
+  }
+});
+
