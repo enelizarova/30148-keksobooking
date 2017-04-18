@@ -36,11 +36,8 @@ window.Card = (function () {
     var adToRender = ads[context.dataset.index];
 
     closeDialog();
-
     renderDialog(adToRender);
-
     context.classList.add('pin--active');
-
     dialog.style.display = 'block';
   }
 

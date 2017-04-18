@@ -10,6 +10,7 @@ window.Pin = (function () {
     pin.style.left = ad.location.x + 'px';
     pin.style.top = ad.location.y + 'px';
     pin.querySelector('img').src = ad.author.avatar;
+    pin.classList.remove('pin__main');
     return pin;
   }
 

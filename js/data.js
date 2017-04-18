@@ -19,7 +19,7 @@ window.Ads = (function () {
 
     for (var i = 0; i < count; i++) {
       index = ((arr.length - 1) * Math.random()).toFixed(0);
-      if (result.indexOf(arr[index]) === -1) {
+      if (result.indexOf(arr[index]) === 0) {
         result.push(arr[index]);
       }
     }
