@@ -1,57 +1,62 @@
 'use strict';
 
-var noticeForm = document.querySelector('.notice__form');
-var formTime = document.getElementById('time');
-var timeout = document.getElementById('timeout');
+window.Form = (function () {
 
-formTime.addEventListener('change', function () {
-  timeout.selectedIndex = formTime.selectedIndex;
-});
+  var noticeForm = document.querySelector('.notice__form');
+  var formTime = document.getElementById('time');
+  var timeout = document.getElementById('timeout');
 
-var type = document.getElementById('type');
+  formTime.addEventListener('change', function () {
+    timeout.selectedIndex = formTime.selectedIndex;
+  });
 
-type.addEventListener('change', function () {
-  var price = 0;
-  switch (roomType[type.selectedIndex]) {
-    case 'flat':
-      price = 1000;
-      break;
-    case 'bungalo':
-      price = 0;
-      break;
-    case 'house':
-      price = 1000000;
-      break;
-  }
-  document.getElementById('price').value = price;
-});
+  var type = document.getElementById('type');
 
-var roomNumber = document.getElementById('room_number');
-var capacity = document.getElementById('capacity');
+  type.addEventListener('change', function () {
+    var price = 0;
+    var roomType = ['flat', 'house', 'bungalo'];
+    switch (roomType[type.selectedIndex]) {
+      case 'flat':
+        price = 1000;
+        break;
+      case 'bungalo':
+        price = 0;
+        break;
+      case 'house':
+        price = 1000000;
+        break;
+    }
+    document.getElementById('price').value = price;
+  });
 
-roomNumber.addEventListener('change', function () {
-  var index = roomNumber.selectedIndex;
-  capacity.selectedIndex = [1, 2].indexOf(index) !== -1 ? 0 : 1;
-});
+  var roomNumber = document.getElementById('room_number');
+  var capacity = document.getElementById('capacity');
 
-noticeForm.addEventListener('submit', function (e) {
+  roomNumber.addEventListener('change', function () {
+    var index = roomNumber.selectedIndex;
+    capacity.selectedIndex = [1, 2].indexOf(index) !== -1 ? 0 : 1;
+  });
 
-  e.preventDefault();
+  noticeForm.addEventListener('submit', function (e) {
 
-  var formTitle = document.getElementById('title');
-  var titleVal = formTitle.value;
+    e.preventDefault();
 
-  if (!titleVal || titleVal.length < 30 || titleVal.length > 100) {
-    title.style.border = '1px solid red';
-  }
+    var formTitle = document.getElementById('title');
+    var titleVal = formTitle.value;
 
-  var price = document.getElementById('price');
-  var priceVal = parseInt(price.value, 10);
+    if (!titleVal || titleVal.length < 30 || titleVal.length > 100) {
+      formTitle.style.border = '1px solid red';
+    }
 
-  if (!priceVal || priceVal < 1000 || priceVal > 1000000) {
-    price.style.border = '1px solid red';
-  }
+    var price = document.getElementById('price');
+    var priceVal = parseInt(price.value, 10);
 
-  noticeForm.reset();
+    if (!priceVal || priceVal < 1000 || priceVal > 1000000) {
+      price.style.border = '1px solid red';
+    }
 
-}, false);
+    noticeForm.reset();
+
+  }, false);
+
+})();

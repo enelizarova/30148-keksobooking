@@ -1,9 +1,11 @@
 'use strict';
 
 
-window.ads = (function () {
-  return {
-    function renderAds(ad) {
+window.Card = (function () {
+
+  var flatDict = {'flat': 'Квартира', 'house': 'Дом', 'bungalo': 'Бунгало'};
+
+  function renderAds(ad) {
 
     var similarAdsTemplate = document.querySelector('#lodge-template').content;
     var adsElement = similarAdsTemplate.cloneNode(true);
@@ -26,22 +28,50 @@ window.ads = (function () {
     adsElement.querySelector('.lodge__photos').textContent = ad.offer.photos;
 
     return adsElement;
-    }
   }
-})
-window.dialog = (function () {
+
+  function openDialog(context, ads) {
+
+    var dialog = document.querySelector('.dialog');
+    var adToRender = ads[context.dataset.index];
+
+    closeDialog();
+
+    renderDialog(adToRender);
+
+    context.classList.add('pin--active');
+
+    dialog.style.display = 'block';
+  }
+
+  function closeDialog() {
+
+    var pins = document.getElementsByClassName('pin');
+    var dialog = document.querySelector('.dialog');
+
+    for (var k = 0; k < pins.length; k++) {
+      pins[k].classList.remove('pin--active');
+    }
+    dialog.style.display = 'none';
+  }
+
+  function renderDialog(ad) {
+
+    var dialogPanel = document.querySelector('.dialog__panel');
+    var fragment = document.createDocumentFragment();
+
+    fragment.appendChild(renderAds(ad));
+
+    dialogPanel.innerHTML = '';
+    dialogPanel.appendChild(fragment);
+
+    document.querySelector('.dialog__title img').src = ad.author.avatar;
+  }
+
   return {
-    function renderDialog(ad) {
-      var fragment = document.createDocumentFragment();
-      fragment.appendChild(renderAds(ad));
-      dialogPanel.innerHTML = '';
-      dialogPanel.appendChild(fragment);
-      document.querySelector('.dialog__title img').src = ad.author.avatar;
-    }
-  }
-})
+    render: renderAds,
+    close: closeDialog,
+    open: openDialog
+  };
 
-
-for (var j = 1; j <= 8; j++) {
-  ads.push(createAds(j));
-}
+})();
