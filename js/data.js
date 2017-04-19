@@ -31,8 +31,8 @@ window.Ads = (function () {
     return arr[index];
   }
   function createAds(index) {
-    var x = getRandomNum(300, 900);
-    var y = getRandomNum(100, 500);
+    var x = getRandomNum(328, 928);
+    var y = getRandomNum(175, 575);
 
     return {
       author: {

@@ -47,6 +47,60 @@ window.Map = (function () {
     }
   });
 
-  document.querySelector('.pin').style.display = 'none';
+  // document.querySelector('.pin').style.display = 'none';
+  var pinHandle = document.querySelector('.pin__main');
+
+  pinHandle.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY,
+    };
+
+    function onMouseMove(moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      pinHandle.style.top = (pinHandle.offsetTop - shift.y) + 'px';
+      pinHandle.style.left = (pinHandle.offsetLeft - shift.x) + 'px';
+
+      var addressInput = document.querySelector('#address');
+      addressInput.value = (pinHandle.offsetTop - shift.y) + 'px' + ', ' + (pinHandle.offsetLeft - shift.x) + 'px';
+
+    }
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+  pinHandle.addEventListener('dragstart', function (evt) {
+    if (evt.target.className.toLowerCase() === 'pin__main') {
+      evt.dataTransfer.setData('text/plain', evt.target.alt);
+    }
+  });
+
+  var mapElement = document.querySelector('.tokyo');
+
+  mapElement.addEventListener('dragover', function (evt) {
+    evt.preventDefault();
+    return false;
+  });
 
 })();
