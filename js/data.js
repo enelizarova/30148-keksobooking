@@ -19,7 +19,7 @@ window.Ads = (function () {
 
     for (var i = 0; i < count; i++) {
       index = ((arr.length - 1) * Math.random()).toFixed(0);
-      if (result.indexOf(arr[index]) === 0) {
+      if (result.indexOf(arr[index]) === -1) {
         result.push(arr[index]);
       }
     }
@@ -31,8 +31,8 @@ window.Ads = (function () {
     return arr[index];
   }
   function createAds(index) {
-    var x = getRandomNum(300, 900);
-    var y = getRandomNum(100, 500);
+    var x = getRandomNum(328, 928);
+    var y = getRandomNum(175, 575);
 
     return {
       author: {

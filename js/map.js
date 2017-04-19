@@ -90,11 +90,8 @@ window.Map = (function () {
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  var draggedItem = null;
-
   pinHandle.addEventListener('dragstart', function (evt) {
     if (evt.target.className.toLowerCase() === 'pin__main') {
-      draggedItem = evt.target;
       evt.dataTransfer.setData('text/plain', evt.target.alt);
     }
   });
