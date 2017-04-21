@@ -21,14 +21,11 @@ window.Form = (function () {
   function syncValues(element, value) {
     element.value = value;
   }
-  function syncValueWithMin(element, value) {
-    element.min = value;
-  }
 
   window.synchronizeFields(formTime, timeVal, timeout, timeVal, syncValues);
   window.synchronizeFields(timeout, timeVal, formTime, timeVal, syncValues);
   window.synchronizeFields(roomNumber, rooms, capacity, guests, syncValues);
-  window.synchronizeFields(type, housing, priceElem, prices, syncValueWithMin);
+  window.synchronizeFields(type, housing, priceElem, prices, syncValues);
 
   noticeForm.addEventListener('submit', function (e) {
 
