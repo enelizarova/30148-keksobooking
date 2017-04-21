@@ -5,37 +5,27 @@ window.Form = (function () {
   var noticeForm = document.querySelector('.notice__form');
   var formTime = document.getElementById('time');
   var timeout = document.getElementById('timeout');
-
-  formTime.addEventListener('change', function () {
-    timeout.selectedIndex = formTime.selectedIndex;
-  });
-
   var type = document.getElementById('type');
-
-  type.addEventListener('change', function () {
-    var price = 0;
-    var roomType = ['flat', 'house', 'bungalo'];
-    switch (roomType[type.selectedIndex]) {
-      case 'flat':
-        price = 1000;
-        break;
-      case 'bungalo':
-        price = 0;
-        break;
-      case 'house':
-        price = 1000000;
-        break;
-    }
-    document.getElementById('price').value = price;
-  });
-
   var roomNumber = document.getElementById('room_number');
   var capacity = document.getElementById('capacity');
+  var priceElem = document.getElementById('price');
+  var timeVal = ['12', '13', '14'];
+  var rooms = ['1', '2', '100'];
+  var guests = ['0', '3', '3'];
+  var housing = ['flat', 'house', 'bungalo'];
+  var prices = ['1000', '1000000', '0'];
+  priceElem.min = 1000;
+  priceElem.max = 1000000;
 
-  roomNumber.addEventListener('change', function () {
-    var index = roomNumber.selectedIndex;
-    capacity.selectedIndex = [1, 2].indexOf(index) !== -1 ? 0 : 1;
-  });
+
+  function syncValues(element, value) {
+    element.value = value;
+  }
+
+  window.synchronizeFields(formTime, timeVal, timeout, timeVal, syncValues);
+  window.synchronizeFields(timeout, timeVal, formTime, timeVal, syncValues);
+  window.synchronizeFields(roomNumber, rooms, capacity, guests, syncValues);
+  window.synchronizeFields(type, housing, priceElem, prices, syncValues);
 
   noticeForm.addEventListener('submit', function (e) {
 
